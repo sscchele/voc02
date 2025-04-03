@@ -1,838 +1,838 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spaced Repetition Vocabulary Revision</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #2c3e50;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, textarea, button {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        .tabs {
-            display: flex;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #ddd;
-        }
-        .tab {
-            padding: 10px 15px;
-            cursor: pointer;
-            background-color: #eee;
-            border: 1px solid #ddd;
-            border-bottom: none;
-            border-radius: 5px 5px 0 0;
-            margin-right: 5px;
-        }
-        .tab.active {
-            background-color: white;
-            border-bottom: 1px solid white;
-            margin-bottom: -1px;
-        }
-        .tab-content {
-            display: none;
-            padding: 15px;
-            background: white;
-            border: 1px solid #ddd;
-            border-top: none;
-            border-radius: 0 0 5px 5px;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        .word-container {
-            margin-bottom: 15px;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 5px;
-            position: relative;
-        }
-        .word-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .word-actions button {
-            width: auto;
-            padding: 5px 10px;
-            margin-right: 5px;
-        }
-        .delete-word {
-            background-color: #e74c3c;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            padding: 0;
-            line-height: 30px;
-            text-align: center;
-        }
-        .delete-word:hover {
-            background-color: #c0392b;
-        }
-        .word-title {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        .word-definition {
-            margin-bottom: 5px;
-        }
-        .word-context {
-            font-style: italic;
-            color: #666;
-        }
-        .review-section {
-            margin-bottom: 20px;
-        }
-        .hidden {
-            display: none;
-        }
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            text-align: center;
-        }
-        .stat-box {
-            background: #3498db;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            width: 23%;
-        }
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .stat-label {
-            font-size: 14px;
-        }
-        .flashcard {
-            background: white;
-            padding: 30px;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin: 20px 0;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .flashcard-word {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .flashcard-details {
-            margin-top: 20px;
-        }
-        .flashcard-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .flashcard-buttons button {
-            width: auto;
-        }
-        #reviewTab {
-            background-color: #27ae60;
-            color: white;
-        }
-        #reviewTab:hover {
-            background-color: #219653;
-        }
-        .review-interval {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-        .interval-box {
-            background: #3498db;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 50px;
-            margin: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .interval-box:hover {
-            background: #2980b9;
-            transform: scale(1.05);
-        }
-        .interval-box.active {
-            background: #27ae60;
-        }
-        .import-export {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VocabSpaced - Spaced Repetition Vocabulary Learning</title>
+  <!-- Firebase App (Always Required) -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<!-- Firebase Auth -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --warning: #f8961e;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 20px;
+    }
+    
+    .nav-links a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    
+    .btn:hover {
+      background-color: var(--secondary);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background-color: #d61a6c;
+    }
+    
+    .section {
+      padding: 60px 0;
+    }
+    
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+    
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+    
+    h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+    
+    p {
+      margin-bottom: 20px;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    .csv-input {
+      margin-bottom: 20px;
+    }
+    
+    .flashcard {
+      perspective: 1000px;
+      width: 100%;
+      height: 300px;
+      margin-bottom: 30px;
+    }
+    
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+    
+    .flashcard-front, .flashcard-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .flashcard-front {
+      background-color: white;
+    }
+    
+    .flashcard-back {
+      background-color: var(--primary);
+      color: white;
+      transform: rotateY(180deg);
+    }
+    
+    .word {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .meaning {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    
+    .synonyms {
+      font-size: 18px;
+      font-style: italic;
+    }
+    
+    .filter-controls {
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .filter-btn {
+      padding: 8px 16px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .filter-btn.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .filter-btn:hover {
+      border-color: var(--primary);
+    }
+    
+    .star-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    
+    .star-btn.active {
+      color: var(--warning);
+    }
+    
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: var(--primary);
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .network-container {
+      height: 400px;
+      margin-top: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+      
+      h2 {
+        font-size: 24px;
+      }
+      
+      .section {
+        padding: 40px 0;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
     <div class="container">
-        <h1>Spaced Repetition Vocabulary Revision</h1>
-        
-        <div class="tabs">
-            <div class="tab active" onclick="openTab(event, 'addTab')">Add Words</div>
-            <div class="tab" id="reviewTab" onclick="openTab(event, 'reviewTab')">Review Words</div>
-            <div class="tab" onclick="openTab(event, 'allWordsTab')">All Words</div>
-            <div class="tab" onclick="openTab(event, 'statsTab')">Stats</div>
-            <div class="tab" onclick="openTab(event, 'settingsTab')">Settings</div>
-        </div>
-        
-        <div id="addTab" class="tab-content active">
-            <h2>Add New Words</h2>
-            <div class="form-group">
-                <label for="newWord">Word:</label>
-                <input type="text" id="newWord" placeholder="Enter a new word">
-            </div>
-            
-            <div class="form-group">
-                <label for="definition">Definition:</label>
-                <textarea id="definition" placeholder="Enter the definition"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="context">Example Sentence (Context):</label>
-                <textarea id="context" placeholder="Enter an example sentence using this word"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="notes">Additional Notes (Optional):</label>
-                <textarea id="notes" placeholder="Enter any additional notes"></textarea>
-            </div>
-            
-            <button onclick="addWord()">Add Word</button>
-            
-            <div class="import-export">
-                <h3>Import/Export</h3>
-                <button onclick="exportWords()">Export Vocabulary</button>
-                <div class="form-group" style="margin-top: 15px;">
-                    <label for="importData">Import Data:</label>
-                    <textarea id="importData" placeholder="Paste exported vocabulary data here"></textarea>
-                </div>
-                <button onclick="importWords()">Import Words</button>
-            </div>
-        </div>
-        
-        <div id="reviewTab" class="tab-content">
-            <h2>Review Words</h2>
-            
-            <div class="review-interval">
-                <div class="interval-box" onclick="setReviewInterval(1)">Today</div>
-                <div class="interval-box" onclick="setReviewInterval(2)">2 Days</div>
-                <div class="interval-box" onclick="setReviewInterval(3)">3 Days</div>
-                <div class="interval-box" onclick="setReviewInterval(5)">5 Days</div>
-                <div class="interval-box" onclick="setReviewInterval(7)">7 Days</div>
-                <div class="interval-box" onclick="setReviewInterval(10)">10 Days</div>
-                <div class="interval-box" onclick="setReviewInterval(15)">15 Days</div>
-                <div class="interval-box" onclick="setReviewInterval(30)">30 Days</div>
-                <div class="interval-box" onclick="setReviewInterval(60)">60 Days</div>
-            </div>
-            
-            <div id="reviewWords" class="review-section">
-                <div id="reviewStatus">
-                    <p>Select an interval above to start reviewing words.</p>
-                </div>
-                
-                <div id="flashcard" class="flashcard hidden">
-                    <div class="flashcard-word" id="flashcardWord"></div>
-                    <div class="flashcard-details hidden" id="flashcardDetails">
-                        <div id="flashcardDefinition"></div>
-                        <div id="flashcardContext" style="margin-top: 10px; font-style: italic;"></div>
-                        <div id="flashcardNotes" style="margin-top: 10px; color: #666;"></div>
-                    </div>
-                    <div class="flashcard-buttons">
-                        <button onclick="showAnswer()" id="showAnswerBtn">Show Answer</button>
-                        <button onclick="markReviewed('easy')" class="hidden reviewBtn" style="background-color: #27ae60;">Easy</button>
-                        <button onclick="markReviewed('medium')" class="hidden reviewBtn" style="background-color: #f39c12;">Medium</button>
-                        <button onclick="markReviewed('hard')" class="hidden reviewBtn" style="background-color: #e74c3c;">Hard</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="allWordsTab" class="tab-content">
-            <h2>All Words</h2>
-            <input type="text" id="searchWords" placeholder="Search words..." onkeyup="searchWords()">
-            <div id="wordsList"></div>
-        </div>
-        
-        <div id="statsTab" class="tab-content">
-            <h2>Statistics</h2>
-            
-            <div class="stats">
-                <div class="stat-box">
-                    <div class="stat-number" id="totalWords">0</div>
-                    <div class="stat-label">Total Words</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="learnedWords">0</div>
-                    <div class="stat-label">Mastered</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="reviewToday">0</div>
-                    <div class="stat-label">Due Today</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="streak">0</div>
-                    <div class="stat-label">Day Streak</div>
-                </div>
-            </div>
-            
-            <h3>Recent Activity</h3>
-            <div id="recentActivity">
-                <p>No recent activity.</p>
-            </div>
-        </div>
-        
-        <div id="settingsTab" class="tab-content">
-            <h2>Settings</h2>
-            
-            <div class="form-group">
-                <label for="dailyGoal">Daily Review Goal:</label>
-                <input type="number" id="dailyGoal" min="1" value="20">
-            </div>
-            
-            <div class="form-group">
-                <label for="reviewStyle">Review Style:</label>
-                <select id="reviewStyle">
-                    <option value="flashcard">Flashcards</option>
-                    <option value="quiz">Quiz Mode</option>
-                </select>
-            </div>
-            
-            <button onclick="saveSettings()">Save Settings</button>
-            
-            <div style="margin-top: 30px;">
-                <button onclick="resetProgress()" style="background-color: #e74c3c;">Reset All Progress</button>
-            </div>
-        </div>
+      <nav>
+        <a href="#" class="logo">VocabSpaced</a>
+        <ul class="nav-links">
+          <li><a href="#" class="active" id="nav-add">Add Words</a></li>
+          <li><a href="#" id="nav-review">Review</a></li>
+          <li><a href="#" id="nav-network">Word Network</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <script>
-        // Initialize vocabulary storage
-        let vocabulary = JSON.parse(localStorage.getItem('vocabulary')) || [];
-        let settings = JSON.parse(localStorage.getItem('settings')) || {
-            dailyGoal: 20,
-            reviewStyle: 'flashcard',
-            lastReviewDate: '',
-            streak: 0
-        };
-        let currentReviewWords = [];
-        let currentReviewIndex = 0;
-        let currentReviewInterval = 0;
+  <main>
+    <!-- Add Words Section -->
+    <section class="section" id="add-section">
+      <div class="container">
+        <h1>Add New Words</h1>
+        <p>Add vocabulary words individually or upload a CSV file for batch processing.</p>
+        
+        <div class="card">
+          <h3>Add Single Word</h3>
+          <form id="add-word-form">
+            <div class="form-group">
+              <label for="word">Word:</label>
+              <input type="text" id="word" required>
+            </div>
+            <div class="form-group">
+              <label for="meaning">Meaning:</label>
+              <textarea id="meaning" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="synonyms">Synonyms (comma separated):</label>
+              <input type="text" id="synonyms">
+            </div>
+            <button type="submit" class="btn">Add Word</button>
+          </form>
+        </div>
+        
+        <div class="card">
+          <h3>Batch Upload (CSV)</h3>
+          <p>Upload a CSV file with columns: Word, Meaning, Synonyms</p>
+          <div class="csv-input">
+            <input type="file" id="csv-file" accept=".csv">
+          </div>
+          <button class="btn" id="upload-csv">Upload and Process</button>
+        </div>
+      </div>
+    </section>
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            updateWordsList();
-            updateStats();
-            checkDailyStreak();
-            document.getElementById('dailyGoal').value = settings.dailyGoal;
-            document.getElementById('reviewStyle').value = settings.reviewStyle;
+    <!-- Review Section -->
+    <section class="section" id="review-section" style="display: none;">
+      <div class="container">
+        <h1>Review Words</h1>
+        <p>Review your vocabulary using the spaced repetition system.</p>
+        
+        <div class="filter-controls">
+          <button class="filter-btn active" data-filter="today">Today's Words</button>
+          <button class="filter-btn" data-filter="yesterday">Yesterday's Words</button>
+          <button class="filter-btn" data-filter="week">Last Week</button>
+          <button class="filter-btn" data-filter="month">Last Month</button>
+          <button class="filter-btn" data-filter="starred">Starred</button>
+          <button class="filter-btn" data-filter="random">Random Spacing</button>
+        </div>
+        
+        <div class="form-group">
+          <label for="word-count">Number of words to review:</label>
+          <select id="word-count">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="all">All</option>
+          </select>
+        </div>
+        
+        <div id="flashcards-container">
+          <div class="loading">
+            <div class="spinner"></div>
+          </div>
+        </div>
+        
+        <div class="controls">
+          <button class="btn btn-outline" id="prev-card">Previous</button>
+          <button class="btn" id="next-card">Next</button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Word Network Section -->
+    <section class="section" id="network-section" style="display: none;">
+      <div class="container">
+        <h1>Word Network</h1>
+        <p>Visualize connections between words, meanings, and synonyms.</p>
+        
+        <div class="card">
+          <h3>Word Connections</h3>
+          <p>This visualization shows relationships between your vocabulary words based on shared meanings and synonyms.</p>
+          <div class="network-container" id="network-visualization">
+            <!-- Network visualization will be rendered here -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>VocabSpaced - A spaced repetition vocabulary learning system</p>
+    </div>
+  </footer>
+
+  <script>
+    // Firebase configuration and initialization
+    const firebaseConfig = {
+      // Add your Firebase config here
+  apiKey: "AIzaSyDfc0p67p2ZG1aB5XYgT8WVyU3HzsQ0fO4",
+  authDomain: "vocabspaced.firebaseapp.com",
+  projectId: "vocabspaced",
+  storageBucket: "vocabspaced.firebasestorage.app",
+  messagingSenderId: "625582802046",
+  appId: "1:625582802046:web:bd8a55a39733da0ea6042f"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const wordsCollection = db.collection('vocabulary');
+    
+    // DOM Elements
+    const addSection = document.getElementById('add-section');
+    const reviewSection = document.getElementById('review-section');
+    const networkSection = document.getElementById('network-section');
+    
+    const navAdd = document.getElementById('nav-add');
+    const navReview = document.getElementById('nav-review');
+    const navNetwork = document.getElementById('nav-network');
+    
+    const addWordForm = document.getElementById('add-word-form');
+    const csvFile = document.getElementById('csv-file');
+    const uploadCsvBtn = document.getElementById('upload-csv');
+    
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const wordCount = document.getElementById('word-count');
+    const flashcardsContainer = document.getElementById('flashcards-container');
+    const prevCardBtn = document.getElementById('prev-card');
+    const nextCardBtn = document.getElementById('next-card');
+    
+    // Navigation
+    navAdd.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSection(addSection);
+      highlightNavLink(navAdd);
+    });
+    
+    navReview.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSection(reviewSection);
+      highlightNavLink(navReview);
+      loadFlashcards('today');
+    });
+    
+    navNetwork.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSection(networkSection);
+      highlightNavLink(navNetwork);
+      renderWordNetwork();
+    });
+    
+    function showSection(section) {
+      addSection.style.display = 'none';
+      reviewSection.style.display = 'none';
+      networkSection.style.display = 'none';
+      section.style.display = 'block';
+    }
+    
+    function highlightNavLink(link) {
+      navAdd.classList.remove('active');
+      navReview.classList.remove('active');
+      navNetwork.classList.remove('active');
+      link.classList.add('active');
+    }
+    
+    // Add word functionality
+    addWordForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const word = document.getElementById('word').value.trim();
+      const meaning = document.getElementById('meaning').value.trim();
+      const synonyms = document.getElementById('synonyms').value.trim().split(',').map(s => s.trim()).filter(s => s);
+      
+      addWordToFirestore(word, meaning, synonyms);
+    });
+    
+    function addWordToFirestore(word, meaning, synonyms) {
+      const timestamp = new Date();
+      
+      wordsCollection.add({
+        word: word,
+        meaning: meaning,
+        synonyms: synonyms,
+        createdAt: timestamp,
+        lastReviewed: timestamp,
+        reviewCount: 0,
+        starred: false
+      })
+      .then(() => {
+        alert(`Word "${word}" added successfully!`);
+        addWordForm.reset();
+      })
+      .catch((error) => {
+        console.error("Error adding word: ", error);
+        alert("Error adding word. Please try again.");
+      });
+    }
+    
+    // CSV Upload functionality
+    uploadCsvBtn.addEventListener('click', () => {
+      const file = csvFile.files[0];
+      if (!file) {
+        alert("Please select a CSV file.");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const csv = e.target.result;
+        processCSV(csv);
+      };
+      reader.readAsText(file);
+    });
+    
+    function processCSV(csv) {
+      const lines = csv.split('\n');
+      const words = [];
+      
+      for (let i = 0; i < lines.length; i++) {
+        // Skip empty lines
+        if (lines[i].trim() === '') continue;
+        
+        // Parse CSV line
+        const values = lines[i].split(',');
+        
+        if (values.length >= 2) {
+          const word = values[0].trim();
+          const meaning = values[1].trim();
+          const synonyms = values.length > 2 ? values[2].trim().split(',').map(s => s.trim()).filter(s => s) : [];
+          
+          words.push({ word, meaning, synonyms });
+        }
+      }
+      
+      if (words.length > 0) {
+        batchAddWords(words);
+      } else {
+        alert("No valid data found in the CSV file.");
+      }
+    }
+    
+    function batchAddWords(words) {
+      const batch = db.batch();
+      const timestamp = new Date();
+      
+      words.forEach(({ word, meaning, synonyms }) => {
+    const docRef = wordsCollection.doc();
+    batch.set(docRef, {
+        word: word,
+        meaning: meaning,
+        synonyms: Array.isArray(synonyms) ? synonyms : [synonyms], // Ensure synonyms is always an array
+        createdAt: timestamp,
+        lastReviewed: timestamp,
+        reviewCount: 0,
+        starred: false
+    });
+});
+      
+      batch.commit()
+        .then(() => {
+          alert(`Successfully added ${words.length} words!`);
+          csvFile.value = '';
+        })
+        .catch((error) => {
+          console.error("Error adding words: ", error);
+          alert("Error adding words. Please try again.");
         });
-
-        // Tab functionality
-        function openTab(evt, tabName) {
-            const tabContents = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove("active");
-            }
-
-            const tabs = document.getElementsByClassName("tab");
-            for (let i = 0; i < tabs.length; i++) {
-                tabs[i].classList.remove("active");
-            }
-
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-            
-            // Update lists when tab changes
-            if (tabName === 'allWordsTab') {
-                updateWordsList();
-            } else if (tabName === 'statsTab') {
-                updateStats();
-            }
-        }
-
-        // Add new word
-        function addWord() {
-            const word = document.getElementById('newWord').value.trim();
-            const definition = document.getElementById('definition').value.trim();
-            const context = document.getElementById('context').value.trim();
-            const notes = document.getElementById('notes').value.trim();
-            
-            if (!word || !definition) {
-                alert('Word and definition are required.');
-                return;
-            }
-            
-            const today = new Date();
-            
-            vocabulary.push({
-                word: word,
-                definition: definition,
-                context: context,
-                notes: notes,
-                addedDate: today.toISOString(),
-                nextReview: today.toISOString(),
-                reviewHistory: [],
-                level: 0 // 0 = new, higher numbers indicate mastery level
+    }
+    
+    // Review functionality
+    let currentWords = [];
+    let currentCardIndex = 0;
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        loadFlashcards(button.dataset.filter);
+      });
+    });
+    
+    wordCount.addEventListener('change', () => {
+      const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+      loadFlashcards(activeFilter);
+    });
+    
+    function loadFlashcards(filter) {
+      flashcardsContainer.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+      currentCardIndex = 0;
+      currentWords = [];
+      
+      const count = wordCount.value === 'all' ? 9999 : parseInt(wordCount.value);
+      
+      let query = wordsCollection;
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const lastWeek = new Date(today);
+      lastWeek.setDate(lastWeek.getDate() - 7);
+      const lastMonth = new Date(today);
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+      
+      switch(filter) {
+        case 'today':
+          query = query.where('createdAt', '>=', new Date(today.setHours(0, 0, 0, 0)));
+          break;
+        case 'yesterday':
+          query = query.where('createdAt', '>=', new Date(yesterday.setHours(0, 0, 0, 0)))
+                    .where('createdAt', '<', new Date(today.setHours(0, 0, 0, 0)));
+          break;
+        case 'week':
+          query = query.where('createdAt', '>=', lastWeek);
+          break;
+        case 'month':
+          query = query.where('createdAt', '>=', lastMonth);
+          break;
+        case 'starred':
+          query = query.where('starred', '==', true);
+          break;
+        case 'random':
+          // Will be handled after fetching all words
+          break;
+      }
+      
+      query.limit(count).get()
+        .then((querySnapshot) => {
+          if (querySnapshot.empty) {
+            flashcardsContainer.innerHTML = '<p>No words found for this filter.</p>';
+            return;
+          }
+          
+          querySnapshot.forEach((doc) => {
+            const wordData = doc.data();
+            wordData.id = doc.id;
+            currentWords.push(wordData);
+          });
+          
+          if (filter === 'random') {
+            // For random spacing, we'll filter after fetching
+            const spacedWords = currentWords.filter(word => {
+              const daysSinceCreation = differenceInDays(today, word.createdAt.toDate());
+              const spacingDays = [2, 3, 5, 7, 10, 15, 30, 60];
+              return spacingDays.includes(daysSinceCreation);
             });
             
-            saveVocabulary();
-            
-            // Clear the form
-            document.getElementById('newWord').value = '';
-            document.getElementById('definition').value = '';
-            document.getElementById('context').value = '';
-            document.getElementById('notes').value = '';
-            
-            alert('Word added successfully!');
-            updateStats();
-        }
-
-        // Save vocabulary to localStorage
-        function saveVocabulary() {
-            localStorage.setItem('vocabulary', JSON.stringify(vocabulary));
-        }
-
-        // Display all words
-        function updateWordsList() {
-            const wordsListElement = document.getElementById('wordsList');
-            
-            if (vocabulary.length === 0) {
-                wordsListElement.innerHTML = '<p>No words added yet.</p>';
-                return;
+            if (spacedWords.length === 0) {
+              flashcardsContainer.innerHTML = '<p>No words found for spaced repetition today.</p>';
+              return;
             }
             
-            let html = '';
-            vocabulary.sort((a, b) => a.word.localeCompare(b.word)).forEach((item, index) => {
-                html += `
-                    <div class="word-container">
-                        <button class="delete-word" onclick="deleteWord(${index})">×</button>
-                        <div class="word-title">${item.word}</div>
-                        <div class="word-definition">${item.definition}</div>
-                        ${item.context ? `<div class="word-context">${item.context}</div>` : ''}
-                        <div class="word-actions">
-                            <button onclick="editWord(${index})">Edit</button>
-                            <button onclick="reviewNow(${index})">Review Now</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            wordsListElement.innerHTML = html;
+            currentWords = spacedWords;
+          }
+          
+          // Shuffle the words
+          currentWords = shuffleArray(currentWords);
+          
+          // Display the first card
+          if (currentWords.length > 0) {
+            renderFlashcard(currentWords[0]);
+          }
+        })
+        .catch((error) => {
+          console.error("Error loading flashcards: ", error);
+          flashcardsContainer.innerHTML = '<p>Error loading flashcards. Please try again.</p>';
+        });
+    }
+    
+    function renderFlashcard(wordData) {
+      flashcardsContainer.innerHTML = `
+        <div class="flashcard" onclick="flipCard(this)">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <button class="star-btn ${wordData.starred ? 'active' : ''}" onclick="toggleStar(event, '${wordData.id}')">★</button>
+              <div class="word">${wordData.word}</div>
+              <p>Click to flip</p>
+            </div>
+            <div class="flashcard-back">
+              <button class="star-btn ${wordData.starred ? 'active' : ''}" onclick="toggleStar(event, '${wordData.id}')">★</button>
+              <div class="meaning">${wordData.meaning}</div>
+              <div class="synonyms">${wordData.synonyms.join(', ')}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Update the current card's review statistics
+      wordsCollection.doc(wordData.id).update({
+        lastReviewed: new Date(),
+        reviewCount: firebase.firestore.FieldValue.increment(1)
+      });
+    }
+    
+    prevCardBtn.addEventListener('click', () => {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        renderFlashcard(currentWords[currentCardIndex]);
+      }
+    });
+    
+    nextCardBtn.addEventListener('click', () => {
+      if (currentCardIndex < currentWords.length - 1) {
+        currentCardIndex++;
+        renderFlashcard(currentWords[currentCardIndex]);
+      }
+    });
+    
+    // Helper functions
+    function flipCard(card) {
+      card.classList.toggle('flipped');
+    }
+    
+    function toggleStar(event, wordId) {
+      event.stopPropagation();
+      const btn = event.target;
+      const isStarred = btn.classList.contains('active');
+      
+      wordsCollection.doc(wordId).update({
+        starred: !isStarred
+      })
+      .then(() => {
+        // Update both star buttons on the card
+        const buttons = document.querySelectorAll(`.star-btn`);
+        buttons.forEach(button => {
+          button.classList.toggle('active');
+        });
+        
+        // Update starred status in our current words array
+        const wordIndex = currentWords.findIndex(w => w.id === wordId);
+        if (wordIndex !== -1) {
+          currentWords[wordIndex].starred = !isStarred;
         }
-
-        // Delete a word
-        function deleteWord(index) {
-            if (confirm('Are you sure you want to delete this word?')) {
-                vocabulary.splice(index, 1);
-                saveVocabulary();
-                updateWordsList();
-                updateStats();
-            }
-        }
-
-        // Edit a word (placeholder - would implement edit modal in a full version)
-        function editWord(index) {
-            alert('Edit feature would open an edit modal in a full version.');
-        }
-
-        // Search words
-        function searchWords() {
-            const searchTerm = document.getElementById('searchWords').value.toLowerCase();
-            const wordsListElement = document.getElementById('wordsList');
-            
-            if (vocabulary.length === 0) {
-                wordsListElement.innerHTML = '<p>No words added yet.</p>';
-                return;
-            }
-            
-            let html = '';
-            vocabulary
-                .filter(item => item.word.toLowerCase().includes(searchTerm) || 
-                               item.definition.toLowerCase().includes(searchTerm))
-                .sort((a, b) => a.word.localeCompare(b.word))
-                .forEach((item, index) => {
-                    const originalIndex = vocabulary.findIndex(v => v.word === item.word);
-                    html += `
-                        <div class="word-container">
-                            <button class="delete-word" onclick="deleteWord(${originalIndex})">×</button>
-                            <div class="word-title">${item.word}</div>
-                            <div class="word-definition">${item.definition}</div>
-                            ${item.context ? `<div class="word-context">${item.context}</div>` : ''}
-                            <div class="word-actions">
-                                <button onclick="editWord(${originalIndex})">Edit</button>
-                                <button onclick="reviewNow(${originalIndex})">Review Now</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            
-            if (html === '') {
-                html = '<p>No matching words found.</p>';
-            }
-            
-            wordsListElement.innerHTML = html;
-        }
-
-        // Update statistics
-        function updateStats() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            document.getElementById('totalWords').textContent = vocabulary.length;
-            
-            const learnedWords = vocabulary.filter(item => item.level >= 5).length;
-            document.getElementById('learnedWords').textContent = learnedWords;
-            
-            const reviewToday = vocabulary.filter(item => {
-                const nextReview = new Date(item.nextReview);
-                nextReview.setHours(0, 0, 0, 0);
-                return nextReview <= today;
-            }).length;
-            document.getElementById('reviewToday').textContent = reviewToday;
-            
-            document.getElementById('streak').textContent = settings.streak;
-        }
-
-        // Check daily streak
-        function checkDailyStreak() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            if (!settings.lastReviewDate) {
-                settings.lastReviewDate = today.toISOString();
-                settings.streak = 0;
-            } else {
-                const lastReview = new Date(settings.lastReviewDate);
-                lastReview.setHours(0, 0, 0, 0);
-                
-                const diffTime = Math.abs(today - lastReview);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                
-                if (diffDays === 1) {
-                    // Consecutive day
-                    settings.streak += 1;
-                    settings.lastReviewDate = today.toISOString();
-                } else if (diffDays > 1) {
-                    // Streak broken
-                    settings.streak = 0;
-                    settings.lastReviewDate = today.toISOString();
-                }
-            }
-            
-            localStorage.setItem('settings', JSON.stringify(settings));
-        }
-
-        // Save settings
-        function saveSettings() {
-            settings.dailyGoal = parseInt(document.getElementById('dailyGoal').value);
-            settings.reviewStyle = document.getElementById('reviewStyle').value;
-            
-            localStorage.setItem('settings', JSON.stringify(settings));
-            alert('Settings saved!');
-        }
-
-        // Reset all progress
-        function resetProgress() {
-            if (confirm('Are you sure you want to reset all progress? This will delete all your words and statistics.')) {
-                vocabulary = [];
-                settings = {
-                    dailyGoal: 20,
-                    reviewStyle: 'flashcard',
-                    lastReviewDate: '',
-                    streak: 0
-                };
-                
-                localStorage.setItem('vocabulary', JSON.stringify(vocabulary));
-                localStorage.setItem('settings', JSON.stringify(settings));
-                
-                document.getElementById('dailyGoal').value = settings.dailyGoal;
-                document.getElementById('reviewStyle').value = settings.reviewStyle;
-                
-                updateWordsList();
-                updateStats();
-                
-                alert('All progress has been reset.');
-            }
-        }
-
-        // Set review interval
-        function setReviewInterval(days) {
-            currentReviewInterval = days;
-            
-            // Update active styling
-            const intervalBoxes = document.getElementsByClassName('interval-box');
-            for (let i = 0; i < intervalBoxes.length; i++) {
-                intervalBoxes[i].classList.remove('active');
-            }
-            event.target.classList.add('active');
-            
-            // Get words for review
-            loadReviewWords(days);
-        }
-
-        // Load words for review based on interval
-        function loadReviewWords(days) {
-            const today = new Date();
-            const intervalDate = new Date();
-            intervalDate.setDate(today.getDate() - days);
-            
-            currentReviewWords = vocabulary.filter(item => {
-                const addedDate = new Date(item.addedDate);
-                if (days === 1) {
-                    // For "today", show only words due for review today
-                    const nextReview = new Date(item.nextReview);
-                    nextReview.setHours(0, 0, 0, 0);
-                    today.setHours(0, 0, 0, 0);
-                    return nextReview <= today;
-                } else {
-                    // For other intervals, show words added within that interval
-                    return addedDate >= intervalDate;
-                }
-            });
-            
-            if (currentReviewWords.length === 0) {
-                document.getElementById('reviewStatus').innerHTML = `<p>No words to review for the ${days}-day interval.</p>`;
-                document.getElementById('flashcard').classList.add('hidden');
-                return;
-            }
-            
-            // Shuffle the words for review
-            currentReviewWords = shuffleArray(currentReviewWords);
-            currentReviewIndex = 0;
-            
-            document.getElementById('reviewStatus').innerHTML = `<p>Reviewing ${currentReviewWords.length} words from the ${days}-day interval.</p>`;
-            showCurrentReviewWord();
-        }
-
-        // Show current word for review
-        function showCurrentReviewWord() {
-            if (currentReviewIndex >= currentReviewWords.length) {
-                document.getElementById('flashcard').classList.add('hidden');
-                document.getElementById('reviewStatus').innerHTML = `<p>Review complete! You've reviewed all ${currentReviewWords.length} words.</p>`;
-                updateStats();
-                return;
-            }
-            
-            const currentWord = currentReviewWords[currentReviewIndex];
-            
-            document.getElementById('flashcard').classList.remove('hidden');
-            document.getElementById('flashcardWord').textContent = currentWord.word;
-            document.getElementById('flashcardDefinition').textContent = currentWord.definition;
-            document.getElementById('flashcardContext').textContent = currentWord.context || '';
-            document.getElementById('flashcardNotes').textContent = currentWord.notes || '';
-            
-            document.getElementById('flashcardDetails').classList.add('hidden');
-            document.getElementById('showAnswerBtn').classList.remove('hidden');
-            
-            const reviewBtns = document.getElementsByClassName('reviewBtn');
-            for (let i = 0; i < reviewBtns.length; i++) {
-                reviewBtns[i].classList.add('hidden');
-            }
-        }
-
-        // Show answer for current review word
-        function showAnswer() {
-            document.getElementById('flashcardDetails').classList.remove('hidden');
-            document.getElementById('showAnswerBtn').classList.add('hidden');
-            
-            const reviewBtns = document.getElementsByClassName('reviewBtn');
-            for (let i = 0; i < reviewBtns.length; i++) {
-                reviewBtns[i].classList.remove('hidden');
-            }
-        }
-
-        // Mark word as reviewed
-        function markReviewed(difficulty) {
-            if (currentReviewIndex >= currentReviewWords.length) return;
-            
-            const currentWord = currentReviewWords[currentReviewIndex];
-            const wordIndex = vocabulary.findIndex(item => item.word === currentWord.word);
-            
-            if (wordIndex === -1) return;
-            
-            // Update review history
-            vocabulary[wordIndex].reviewHistory.push({
-                date: new Date().toISOString(),
-                difficulty: difficulty
-            });
-            
-            // Update level and next review date based on difficulty
-            let daysUntilNextReview = 1;
-            
-            if (difficulty === 'easy') {
-                vocabulary[wordIndex].level += 1;
-                daysUntilNextReview = calculateNextReviewInterval(vocabulary[wordIndex].level);
-            } else if (difficulty === 'medium') {
-                // Keep same level
-                daysUntilNextReview = Math.max(1, calculateNextReviewInterval(vocabulary[wordIndex].level) / 2);
-            } else { // hard
-                vocabulary[wordIndex].level = Math.max(0, vocabulary[wordIndex].level - 1);
-                daysUntilNextReview = 1;
-            }
-            
-            const nextReview = new Date();
-            nextReview.setDate(nextReview.getDate() + daysUntilNextReview);
-            vocabulary[wordIndex].nextReview = nextReview.toISOString();
-            
-            saveVocabulary();
-            
-            // Update streak
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (settings.lastReviewDate) {
-                const lastReview = new Date(settings.lastReviewDate);
-                lastReview.setHours(0, 0, 0, 0);
-                
-                if (lastReview < today) {
-                    settings.lastReviewDate = today.toISOString();
-                    settings.streak += 1;
-                    localStorage.setItem('settings', JSON.stringify(settings));
-                }
-            } else {
-                settings.lastReviewDate = today.toISOString();
-                settings.streak = 1;
-                localStorage.setItem('settings', JSON.stringify(settings));
-            }
-            
-            // Move to next word
-            currentReviewIndex++;
-            showCurrentReviewWord();
-        }
-
-        // Calculate next review interval based on spaced repetition algorithm
-        function calculateNextReviewInterval(level) {
-            // Using a simplified version of SuperMemo-2 algorithm
-            switch (level) {
-                case 0: return 1;  // 1 day
-                case 1: return 2;  // 2 days
-                case 2: return 3;  // 3 days
-                case 3: return 5;  // 5 days
-                case 4: return 7;  // 7 days
-                case 5: return 10; // 10 days
-                case 6: return 15; // 15 days
-                case 7: return 30; // 30 days
-                default: return 60; // 60 days
-            }
-        }
-
-        // Review a specific word now
-        function reviewNow(index) {
-            currentReviewWords = [vocabulary[index]];
-            currentReviewIndex = 0;
-            
-            // Switch to review tab
-            openTab({currentTarget: document.getElementById('reviewTab')}, 'reviewTab');
-            
-            document.getElementById('reviewStatus').innerHTML = `<p>Reviewing word: ${vocabulary[index].word}</p>`;
-            showCurrentReviewWord();
-        }
-
-        // Export vocabulary
-        function exportWords() {
-            const exportData = JSON.stringify(vocabulary);
-            const textarea = document.getElementById('importData');
-            textarea.value = exportData;
-            alert('Data exported! Copy the text in the import box to save it.');
-        }
-
-        // Import vocabulary
-        function importWords() {
-            try {
-                const importData = document.getElementById('importData').value;
-                const importedVocabulary = JSON.parse(importData);
-                
-                if (!Array.isArray(importedVocabulary)) {
-                    throw new Error('Invalid data format');
-                }
-                
-                if (confirm(`Import ${importedVocabulary.length} words? This will merge with your existing vocabulary.`)) {
-                    // Merge with existing vocabulary, avoiding duplicates
-                    importedVocabulary.forEach(word => {
-                        if (!vocabulary.some(item => item.word === word.word)) {
-                            vocabulary.push(word);
-                        }
-                    });
-                    
-                    saveVocabulary();
-                    updateWordsList();
-                    updateStats();
-                    alert('Vocabulary imported successfully!');
-                }
-            } catch (e) {
-                alert('Error importing vocabulary. Please check the format.');
-                console.error(e);
-            }
-        }
-
-        // Utility function to shuffle array
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-    </script>
+      })
+      .catch((error) => {
+        console.error("Error updating star status: ", error);
+      });
+    }
+    
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+    
+    function differenceInDays(date1, date2) {
+      const diffTime = Math.abs(date1 - date2);
+      return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    }
+    
+    function renderWordNetwork() {
+      // This is a placeholder for the word network visualization
+      // In a real implementation, you would use a library like D3.js or Cytoscape.js
+      document.getElementById('network-visualization').innerHTML = `
+        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+          <p>Word network visualization would be implemented here using a graph visualization library.</p>
+        </div>
+      `;
+    }
+    
+    // Global functions needed for inline event handling
+    window.flipCard = flipCard;
+    window.toggleStar = toggleStar;
+  </script>
 </body>
 </html>

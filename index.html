@@ -1682,24 +1682,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let startX = 0;
         let endX = 0;
+        let alloswipe = false; // Flag to allow swipe gesture
 
         // Add swipe gesture support for flashcards
         flashcardContainer.addEventListener('touchstart', function (e) {
-            startX = e.touches[0].clientX; // Record the starting touch position
+            const touch = e.touches[0];
+            const containerRect = flashcardContainer.getBoundingClientRect();
+            const touchY = touch.clientY - containerRect.top;
+            const allowedHeight = containerRect.height * 0.7; // Allow swipe only in the top 20% of the container
+
+            if (touchY < allowedHeight) {
+                alloswipe = true; // Allow swipe if touch is within the allowed area
+                startX = touch.clientX; // Store the initial touch position
+            } else {
+                alloswipe = false; // Disable swipe if touch is outside the allowed area
+            }
+
         });
 
         flashcardContainer.addEventListener('touchmove', function (e) {
+            if(!alloswipe) return; // Prevent swipe if not allowed
             endX = e.touches[0].clientX; // Update the touch position as the user moves
         });
 
         flashcardContainer.addEventListener('touchend', function () {
+            if(!alloswipe) return; // Prevent swipe if not allowed
+
             const swipeDistance = endX - startX;
 
             // Determine if the swipe is significant enough to count as a gesture
-            if (swipeDistance > 30) {
+            if (swipeDistance > 50) {
                 // Swipe right (show previous flashcard)
                 showPrevFlashcard();
-            } else if (swipeDistance < -30) {
+            } else if (swipeDistance < -60) {
                 // Swipe left (show next flashcard)
                 showNextFlashcard();
             }
@@ -1707,6 +1722,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Reset swipe positions
             startX = 0;
             endX = 0;
+            alloswipe = false; // Reset swipe allowance
         });
     </script>
 

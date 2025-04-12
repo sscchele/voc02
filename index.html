@@ -514,7 +514,11 @@
             listViewBtn.addEventListener('click', () => switchMode('list'));
             flashcardBtn.addEventListener('click', () => switchMode('flashcard'));
             quizBtn.addEventListener('click', () => switchMode('quiz'));
-            matchingBtn.addEventListener('click', () => switchMode('matching'));
+            <script>
+    // Remove matching functionality and redirect to the specified site
+    matchingBtn.addEventListener('click', () => {
+        window.location.href = "https://sscchele.github.io/voc02/";
+    });
             
             applyFiltersBtn.addEventListener('click', applyFilters);
             
